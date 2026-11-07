@@ -35,7 +35,8 @@ Licensing
   ported files equal those of wstrinz/radian-ramsey (Will Strinz, Palomar entry
   PALOMAR-2026-10-18-000020) except for the commit named in the notice (docs/PORT-LOG.md).
 
-* `Erdos174.IsRamsey`, with its docstring, in Challenge.lean, and `Erdos174.IsRamsey` and the
+* `Erdos174.IsRamsey`, with its docstring, in Challenge.lean and in tests/controls/Controls/*.lean
+  (each Challenge.lean with one edit), and `Erdos174.IsRamsey` and the
   statement of `erdos_174.variants.graham` in HeptagonRamsey/Heptagon/Transport.lean (the regions
   between BEGIN/END VERBATIM), reproduce google-deepmind/formal-conjectures
   FormalConjectures/ErdosProblems/174.lean at 2055e5adadae0b2e392365938faa82ef6f1464f0

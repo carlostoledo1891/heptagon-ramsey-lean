@@ -16,8 +16,8 @@ project:
     this proof). Ramsey is formal-conjectures' definition, Erdos174.IsRamsey,
     copied byte for byte: a finite set A in R^n such that for every number k ≥ 1 of
     colours there is a dimension d for which every k-colouring of R^d has a
-    monochromatic distance-preserving copy of A. Both statements use only Mathlib
-    and that definition. The conjecture was refuted in September 2026 by
+    monochromatic distance-preserving copy of A. All four compared statements use
+    only Mathlib and that definition. The conjecture was refuted in September 2026 by
     Pálvölgyi's paper (whose proofs it attributes to ChatGPT) and by OpenAI's
     classification of finite Euclidean Ramsey configurations, whose Lean proof
     (openai/math) already exhibits non-Ramsey twelve- and nine-point sets on a
