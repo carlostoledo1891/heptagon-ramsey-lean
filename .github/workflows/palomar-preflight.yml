@@ -1,0 +1,26 @@
+name: Palomar preflight
+
+# Runs Palomar's own reusable verification workflow (mode: full, profile palomar-standard-v1) on every push to the
+# palomar branch, against the pushed commit: the sandboxed Comparator verdict that a container without user
+# namespaces could not give. Predictive only (Palomar's README: third-party preflight reports are advisory); no
+# Palomar state or credentials are involved. The pipeline is pinned to a full PalomarSubmission commit, and
+# pipeline_commit equals it, as that README requires.
+on:
+  push:
+    branches: [palomar]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  palomar-preflight:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: ${{ github.repository }}
+      commit: ${{ github.sha }}
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: preflight001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"comparator_config_path":"comparator.json","authorization_relationship":"I am a responsible author or maintainer"}'

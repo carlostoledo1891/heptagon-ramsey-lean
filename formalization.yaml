@@ -72,9 +72,11 @@ sources:
       its "almost every" clause, which is not formalized; its proof follows the
       appendix (Lemma A.1, symmetric form). The paper states that its text and
       proofs were written by ChatGPT and that the author contributed only
-      suggestions on the presentation.
+      suggestions on the presentation. Author endorsement (other): notified on
+      2026-11-07 by a GitHub mention (carlostoledo1891/heptagon-ramsey-lean issue #1);
+      no reply yet.
     license: "unknown"
-    author_endorsement: "not-contacted"
+    author_endorsement: "other"
   - title: "A classification of finite Euclidean Ramsey configurations (OpenAI math release, result 172)"
     type: paper
     authors:
