@@ -1,7 +1,11 @@
-import HeptagonRamsey.Generic.Derivation
-import HeptagonRamsey.Generic.Moments
-import HeptagonRamsey.Generic.LemmaA1
-import OAI.Combinatorics.EuclideanRamsey.TensorDescent
+module
+
+public import HeptagonRamsey.Generic.Derivation
+public import HeptagonRamsey.Generic.Moments
+public import HeptagonRamsey.Generic.LemmaA1
+public import OAI.Combinatorics.EuclideanRamsey.TensorDescent
+
+@[expose] public section
 
 /-!
 # Theorem A.3 of arXiv:2609.23327v1 (app:thm:generic): the generic seven points on a circle are not Ramsey

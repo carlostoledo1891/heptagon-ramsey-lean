@@ -1,5 +1,9 @@
-import OAI.Combinatorics.EuclideanRamsey.Model
-import OAI.Combinatorics.SphericalRamsey.RealDerivation
+module
+
+public import OAI.Combinatorics.EuclideanRamsey.Model
+public import OAI.Combinatorics.SphericalRamsey.RealDerivation
+
+@[expose] public section
 
 /-!
 # Pálvölgyi's heptagon

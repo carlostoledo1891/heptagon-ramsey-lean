@@ -1,4 +1,8 @@
-import OAI.Combinatorics.EuclideanRamsey.TensorDescent
+module
+
+public import OAI.Combinatorics.EuclideanRamsey.TensorDescent
+
+@[expose] public section
 
 /-!
 # The derivation pairing on OpenAI's tensor ring

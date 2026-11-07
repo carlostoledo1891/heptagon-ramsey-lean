@@ -19,12 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Scope. This license covers the files of this repository only. openai/math (whose Lean
-tree these files import and build against) is a pinned dependency fetched by
-REPRODUCE.sh at the commit in PINS.txt; none of its files are copied here, and it is
-under its own license. The two passages of Transport.lean and Seven.lean marked
-BEGIN/END VERBATIM reproduce statements from google-deepmind/formal-conjectures
-(Apache License 2.0) and openai/math (Apache License 2.0), for comparison, as recorded in those files.

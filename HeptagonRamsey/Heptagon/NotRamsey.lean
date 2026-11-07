@@ -1,5 +1,9 @@
-import HeptagonRamsey.Heptagon.Criterion
-import OAI.Combinatorics.EuclideanRamsey.CircleSpan
+module
+
+public import HeptagonRamsey.Heptagon.Criterion
+public import OAI.Combinatorics.EuclideanRamsey.CircleSpan
+
+@[expose] public section
 
 /-!
 # The heptagon is not Ramsey, through OpenAI's classification

@@ -1,5 +1,9 @@
-import HeptagonRamsey.Heptagon.NotRamsey
-import OAI.Combinatorics.SphericalRamsey.Parameter
+module
+
+public import HeptagonRamsey.Heptagon.NotRamsey
+public import OAI.Combinatorics.SphericalRamsey.Parameter
+
+@[expose] public section
 
 /-!
 # Transport to formal-conjectures' statement

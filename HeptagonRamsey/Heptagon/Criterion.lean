@@ -1,5 +1,9 @@
-import HeptagonRamsey.Heptagon.Pairing
-import HeptagonRamsey.Heptagon.Points
+module
+
+public import HeptagonRamsey.Heptagon.Pairing
+public import HeptagonRamsey.Heptagon.Points
+
+@[expose] public section
 
 /-!
 # The heptagon fails OpenAI's `FieldCriterion`

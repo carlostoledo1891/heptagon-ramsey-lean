@@ -1,5 +1,9 @@
-import OAI.Combinatorics.EuclideanRamsey.NineGeometry
-import Mathlib.LinearAlgebra.Lagrange
+module
+
+public import OAI.Combinatorics.EuclideanRamsey.NineGeometry
+public import Mathlib.LinearAlgebra.Lagrange
+
+@[expose] public section
 
 /-!
 # The finite identities of Theorem A.3 (arXiv:2609.23327v1, .tex 395–434)

@@ -1,0 +1,14 @@
+{
+  "challenge_module": "Controls.MovePoint",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "HeptagonRamsey.Heptagon.heptagon_counterexample",
+    "HeptagonRamsey.Heptagon.graham_false'"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

@@ -1,0 +1,274 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Pálvölgyi's cyclic heptagon is not Euclidean Ramsey, so Graham's spherical-set conjecture (formal-conjectures erdos_174.variants.graham) is false"
+  description: >-
+    For every transcendental r > 2, the seven points (0, 0) and (j, ±√(j(2r − j))),
+    j ∈ {1, 3, 4}, lie on the circle of centre (r, 0) and radius r and are not
+    Euclidean Ramsey (Pálvölgyi, A cyclic non-Ramsey heptagon, arXiv:2609.23327,
+    Theorem 1); consequently not every finite cospherical subset of a Euclidean
+    space is Ramsey. The second statement is the negation of the conjecture that
+    every finite spherical set is Ramsey (posed by Erdős, Graham, Montgomery,
+    Rothschild, Spencer and Straus in 1973), in exactly the form in which
+    google-deepmind/formal-conjectures states it as erdos_174.variants.graham
+    (formal-conjectures PR #7706, which re-tags that statement as solved and links
+    this proof). Ramsey is formal-conjectures' definition, Erdos174.IsRamsey,
+    copied byte for byte: a finite set A in R^n such that for every number k ≥ 1 of
+    colours there is a dimension d for which every k-colouring of R^d has a
+    monochromatic distance-preserving copy of A. Both statements use only Mathlib
+    and that definition. The conjecture was refuted in September 2026 by
+    Pálvölgyi's paper (whose proofs it attributes to ChatGPT) and by OpenAI's
+    classification of finite Euclidean Ramsey configurations, whose Lean proof
+    (openai/math) already exhibits non-Ramsey twelve- and nine-point sets on a
+    circle in OpenAI's own vocabulary. The proof here is Pálvölgyi's
+    derivation-energy argument run against OpenAI's tensor criterion: a derivation
+    D of R with D r = 1, the pairing x ⊗ y ↦ D x · D y on OpenAI's coefficient
+    tensor ring, the weights 2, −2, −2, 2, 2, −1, −1 and the energy
+    −24/((2r − 1)(2r − 3)(2r − 4)) ≠ 0 show that the heptagon fails OpenAI's field
+    criterion, and the necessity half of OpenAI's classification (proved in their
+    Lean) turns that into not Ramsey; formal-conjectures' IsRamsey, which also
+    allows the dimension d = 0, is then reduced to OpenAI's Ramsey. The witness for
+    the second statement is the heptagon at r = 2 + OpenAI's Liouville-type
+    parameter, which is transcendental. The 16 OpenAI Lean files the proof imports
+    are included, ported to the Lean module system by header-only changes. The
+    repository also proves Theorem A.3 of the paper's appendix (generic seven
+    points on a circle are not Ramsey) in OpenAI's vocabulary; that theorem is not
+    among the compared declarations of this entry. All proofs depend on propext,
+    Classical.choice and Quot.sound only.
+  authors:
+    - "Carlos Toledo"
+  license: "MIT"
+  responsible_maintainers:
+    - "Carlos Toledo"
+
+classification:
+  arxiv: ["math.CO", "math.MG"]
+  msc2020: ["05D10", "52C10", "12H05"]
+
+sources:
+  - title: "A cyclic non-Ramsey heptagon"
+    type: paper
+    authors:
+      - "Dömötör Pálvölgyi"
+    id: "arXiv:2609.23327v1"
+    location: "https://arxiv.org/abs/2609.23327v1, Theorem 1 (and the derivation-energy identity in its proof)"
+    relationship: formalizes
+    note: >-
+      heptagon_counterexample is Theorem 1 as printed (transcendental r > 2; the seven
+      points written out; on the circle (x − r)² + y² = r²; not Ramsey), and
+      graham_false' is the disproof it announces. The Lean proof follows the paper's
+      argument (the weights and the derivation with D r = 1) but concludes through
+      OpenAI's criterion and its necessity theorem rather than through the paper's
+      own real-variable lemma. The paper states that its text and proofs were written
+      by ChatGPT and that the author contributed only suggestions on the
+      presentation. The repository also formalizes Theorem A.3 of the paper's
+      appendix (labelled there "Appendix by ChatGPT — unchecked"), which is not a
+      compared declaration of this entry; its "almost every" clause is not formalized.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: "A classification of finite Euclidean Ramsey configurations (OpenAI math release, result 172)"
+    type: paper
+    authors:
+      - "OpenAI"
+    id: "https://github.com/openai/math/tree/4eaee87548250b2682affda7d05d947c05554bae"
+    location: "preprints/A-classification-of-finite-Euclidean-Ramsey-configurations-September-23-2026/ (dated 2026-09-23); lean/OAI/Combinatorics/EuclideanRamsey/ and lean/OAI/Combinatorics/SphericalRamsey/"
+    relationship: other
+    note: >-
+      Used, not formalized here: the proof rests on OpenAI's Lean theorems, namely the
+      necessity half of their classification (TensorDescent.ramsey_fieldCriterion: a
+      Ramsey configuration with full affine span satisfies their field criterion), the
+      existence of real derivations with a prescribed value at a transcendental
+      (GrahamSpherical.exists_real_derivation), the five-point circle span lemma
+      (circle_five_affineSpan) and their transcendental parameter
+      (GrahamSpherical.parameter). The 16 files of their development that this proof
+      imports are included with header-only changes for the Lean module system
+      (Apache-2.0; NOTICE, docs/PORT-LOG.md). OpenAI's Lean also proves, in its own
+      vocabulary, that an explicit twelve-point set on the unit circle is not Ramsey
+      (GrahamSpherical.full_main), which already refutes the conjecture; this entry's
+      contribution is the seven-point cyclic set of Pálvölgyi and formal-conjectures'
+      exact statement.
+    license: "Apache-2.0"
+    author_endorsement: "not-contacted"
+  - title: "Euclidean Ramsey theorems. I"
+    type: paper
+    authors:
+      - "Paul Erdős"
+      - "Ronald L. Graham"
+      - "Peter Montgomery"
+      - "Bruce L. Rothschild"
+      - "Joel Spencer"
+      - "Ernst G. Straus"
+    id: "doi:10.1016/0097-3165(73)90011-3"
+    location: "Journal of Combinatorial Theory, Series A 14 (1973) 341–363"
+    relationship: background
+    note: >-
+      The definition of Ramsey sets, the theorem that Ramsey sets are spherical, and
+      the conjecture that every finite spherical set is Ramsey, which Pálvölgyi's
+      paper attributes to these six authors; formal-conjectures states it as a
+      conjecture of Graham (erdos_174.variants.graham).
+    author_endorsement: "n/a"
+  - title: "Erdős Problem 174, variant `graham`, in google-deepmind/formal-conjectures"
+    type: other
+    authors:
+      - "The Formal Conjectures Authors"
+    contributors:
+      - name: "Anas Khan (anxkhn)"
+        role: "author of formal-conjectures PR #7706, which restates the variant as solved, in the negated form proved here, and links this proof"
+    id: "https://github.com/google-deepmind/formal-conjectures/blob/2055e5adadae0b2e392365938faa82ef6f1464f0/FormalConjectures/ErdosProblems/174.lean"
+    location: "FormalConjectures/ErdosProblems/174.lean at 2055e5a (definition IsRamsey; theorem erdos_174.variants.graham); PR #7706 at 81b7906812371c1674f333d71e18d84c0c57e613"
+    relationship: other
+    note: >-
+      The formal statement this entry refutes. IsRamsey and its docstring are copied
+      byte for byte into Challenge.lean (checks/verbatim_palomar.py compares them with
+      the file at 2055e5a and at the PR head); graham_false' is the statement of
+      PR #7706 token for token, with IsRamsey written Erdos174.IsRamsey. Endorsement
+      (other): the PR author linked version 1.0.0 of this repository from the PR and
+      asked for a Palomar entry for it; the formal-conjectures maintainers have not
+      reviewed this entry.
+    license: "Apache-2.0"
+    author_endorsement: "other"
+
+related_formalizations:
+  - id: "https://github.com/openai/math/tree/4eaee87548250b2682affda7d05d947c05554bae/lean/OAI/Combinatorics"
+    relationship: builds-on
+    note: >-
+      OpenAI's Lean proof of the classification; the 16 modules imported here
+      (EuclideanRamsey: CircleExtension, CircleGeometry, CircleInterpolation, CircleSpan,
+      Congruence, Model, NineGeometry, TensorDescent, TensorNecessity; SphericalRamsey:
+      AlgebraicExtension, BasisDerivation, Model, Parameter, RealDerivation,
+      RealTranscendenceBasis, Specification) are included, ported. Their twelve-point
+      (GrahamSpherical.full_main) and nine-point (nine_circle_configuration) theorems
+      are earlier Lean refutations of the conjecture in OpenAI's vocabulary.
+  - id: "https://github.com/carlostoledo1891/heptagon-ramsey-lean/tree/914298f37e6f4c7096d924f22f7436cac2dff1e1"
+    relationship: other
+    note: >-
+      Version 1.0.0 of this repository: the same proofs, built inside openai/math at
+      Lean v4.34.1, checked there by leanchecker --fresh, nanoda and con-ron (CHECKS.md),
+      and linked from formal-conjectures PR #7706. This commit is its port to the module
+      system at Lean v4.35.0-rc2, with no statement or proof changed and one module
+      (Statement.lean, heptagon_counterexample) added.
+  - id: "https://github.com/google-deepmind/formal-conjectures/issues/7517"
+    relationship: adapts
+    note: >-
+      The pattern of the transport from OpenAI's Ramsey to formal-conjectures' IsRamsey
+      (a verbatim copy of IsRamsey, and the d = 0 case, where two distinct points have no
+      distance-preserving copy), proposed there by pw (byclaude) with an exact check of
+      the heptagon's identities.
+  - id: "https://github.com/wstrinz/radian-ramsey/tree/f94bedbc05dd63d08adfba83ce853ede0094fb86"
+    relationship: other
+    note: >-
+      Palomar PALOMAR-2026-10-18-000020. Its module-system port of OpenAI's EuclideanRamsey
+      files and its port script were the model for this one; the nine EuclideanRamsey files
+      used here equal its ported files except for the commit named in the notice
+      (docs/PORT-LOG.md). Its result (the radian nine-gon) is different.
+  - id: "https://github.com/JD-Jones-ASES/six-concyclic-lean"
+    relationship: independent
+    note: >-
+      Palomar PALOMAR-2026-10-07-000011: six concyclic points satisfy OpenAI's criterion, so,
+      with this heptagon and the classification, seven is the least size of a non-Ramsey
+      cyclic set. Its research note verifies by an exact derivation identity that the
+      heptagon fails the criterion (not in Lean there). Not used here.
+  - id: "https://github.com/wstrinz/algebraic-plus-three-ramsey"
+    relationship: independent
+    note: >-
+      Palomar PALOMAR-2026-10-16-000018: algebraic points on a circle plus at most three
+      arbitrary points are Ramsey, end to end through OpenAI's sufficiency theorem (which
+      covers six concyclic points). Not used here.
+
+status:
+  scope: >-
+    Formalized: Pálvölgyi's Theorem 1 for every transcendental r > 2, with the seven
+    points written out in EuclideanSpace ℝ (Fin 2) (heptagon_counterexample), and the
+    negation of formal-conjectures' erdos_174.variants.graham (graham_false'), both with
+    formal-conjectures' IsRamsey; in the repository but not compared here, the same in
+    OpenAI's vocabulary (not_fieldCriterion, not_ramsey) and Theorem A.3 of the appendix
+    (generic_seven_not_ramsey, seven_circle_configuration). Not formalized: the remark
+    that r = π may be taken (the witness here is r = 2 + OpenAI's Liouville-type
+    parameter); the "almost every" clause of Theorem A.3; the six-point case and the
+    minimality of seven; every other appendix result; the classification itself, which
+    is OpenAI's and is used through their Lean proof.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: "HeptagonRamsey.Heptagon.heptagon_counterexample"
+      file: "HeptagonRamsey/Heptagon/Statement.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "HeptagonRamsey.Heptagon.graham_false'"
+      file: "HeptagonRamsey/Heptagon/Transport.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["claude-opus-5-5"]
+      framework: "Claude Code"
+      tool_setup: >-
+        Claude Opus 5.5 sessions under the author's direction wrote the Lean proofs on top
+        of OpenAI's development (Lean 4, Mathlib, lake build, #print axioms), the check
+        scripts, the module-system port, this packaging and the documentation; the
+        builds and kernel checks ran on a rented 8-vCPU Linux machine. Exact
+        computer-algebra and Python checks were used while exploring.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "a desktop machine and a rented 8-vCPU Linux machine (RunPod) for the builds and checks"
+      prompting_notes: >-
+        Written task briefs with hard rules: no weakened statement, no added hypothesis,
+        the standard axioms only, no sorry or native_decide, statements copied verbatim
+        and checked by script, every check recorded with its tool and version.
+  spend_usd: "not tracked"
+  notes: >-
+    Carlos Toledo directed the work and made every release decision; the Lean was
+    written by Claude (Anthropic's AI model) under his direction. The mathematics is
+    Pálvölgyi's (with ChatGPT, as his paper states) and OpenAI's.
+
+fidelity:
+  divergences: >-
+    IsRamsey is formal-conjectures' definition, verbatim, with Mathlib's Congruent (a
+    distance-preserving map from A); it requires A to be finite, ranges over every number
+    of colours k ≥ 1, and allows the dimension d = 0, which the proof handles. Cospherical
+    is Mathlib's EuclideanGeometry.Cospherical (some centre and radius at which every
+    point lies). The seven points are written as in Theorem 1 with j(2r − j) evaluated
+    (2r − 1, 3(2r − 3), 4(2r − 4)); Mathlib's √ is Real.sqrt, and every radicand is
+    positive for r > 2. "On the circle (x − r)² + y² = r²" is membership in
+    Metric.sphere (r, 0) r. No other divergence is known.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "none"
+  notes: >-
+    Machine checks only (CHECKS-PALOMAR.md; for version 1.0.0, CHECKS.md): the build;
+    the toolchain's lake comparator judging exports of Challenge and Solution, with five
+    negative controls refused for their stated reasons; Lean's kernel, the paranoid
+    checker, NanoDa, con-ron, con-leche and lean4lean on the exported proof; a
+    two-computation axiom audit; scripts comparing the copied statements with
+    formal-conjectures' text. No human expert has refereed the statements or the proofs.
+
+alignment:
+  namespace: "HeptagonRamsey.Heptagon"
+  statements:
+    - source: "arXiv:2609.23327, Theorem 1"
+      lean: "HeptagonRamsey.Heptagon.heptagon_counterexample"
+      module: "Challenge (statement); HeptagonRamsey.Heptagon.Statement (proof)"
+      status: "proved"
+      note: "Hypotheses as printed: r > 2 and r transcendental over ℚ. Both conclusions (on the circle; not Ramsey)."
+    - source: "formal-conjectures erdos_174.variants.graham (negated, as in PR #7706); the conjecture of EGMRSS 1973"
+      lean: "HeptagonRamsey.Heptagon.graham_false'"
+      module: "Challenge (statement); HeptagonRamsey.Heptagon.Transport (proof)"
+      status: "proved"
+      note: "Token for token PR #7706's statement, with IsRamsey qualified as Erdos174.IsRamsey."
+
+acknowledgements: >-
+  Dömötör Pálvölgyi (and ChatGPT, as his paper states) for the heptagon and its
+  certificate; OpenAI for the classification and its Lean proof; pw (byclaude) for the
+  transport pattern of formal-conjectures issue #7517; JD Jones and Will Strinz for the
+  six-point results and, with Will Strinz's radian-ramsey, the module-system port that
+  this one follows; Anas Khan (anxkhn) for formal-conjectures PR #7706; Mathlib; the
+  kernels bundled with the Lean toolchain; the PalomarTemplate scripts.

@@ -1,4 +1,8 @@
-import HeptagonRamsey.Heptagon.Pairing
+module
+
+public import HeptagonRamsey.Heptagon.Pairing
+
+@[expose] public section
 
 /-!
 # Lemma A.1 of arXiv:2609.23327v1 in OpenAI's `FieldCriterion` form, with `M` symmetric

@@ -1,4 +1,8 @@
-import HeptagonRamsey.Generic.A3
+module
+
+public import HeptagonRamsey.Generic.A3
+
+@[expose] public section
 
 /-!
 # Amendment D: the ℚ-independence corollary of Theorem A.3, in the shape of OpenAI's nine-point statement

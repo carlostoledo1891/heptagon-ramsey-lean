@@ -1,0 +1,58 @@
+heptagon-ramsey-lean: Pálvölgyi's seven-point cyclic set is not Ramsey, so Graham's conjecture as
+stated in formal-conjectures is false; and Theorem A.3 of arXiv:2609.23327, through OpenAI's
+classification of finite Euclidean Ramsey configurations
+Copyright (c) 2026 Carlos Toledo
+
+Licensing
+=========
+
+* Files written for this project are under the MIT License (LICENSE): HeptagonRamsey.lean,
+  HeptagonRamsey/, Challenge.lean (apart from the copy listed below), Solution.lean,
+  comparator.json, formalization.yaml, tests/ (apart from the adaptation listed below), checks/,
+  scripts/port_to_modules.py (an adaptation, listed below), the Lake files and the documentation.
+
+* OAI/Combinatorics/EuclideanRamsey/*.lean and OAI/Combinatorics/SphericalRamsey/*.lean are
+  derived from the Lean sources of "A classification of finite Euclidean Ramsey configurations"
+  (result 172 of the OpenAI math release):
+
+    https://github.com/openai/math, commit 4eaee87548250b2682affda7d05d947c05554bae
+    lean/OAI/Combinatorics/<dir>/<file>.lean -> OAI/Combinatorics/<dir>/<file>.lean
+    LICENSE                                  -> LICENSES/Apache-2.0.txt
+
+  They are licensed under the Apache License, Version 2.0 (LICENSES/Apache-2.0.txt). Every one of
+  them was modified, in its header only: each carries a notice at its top saying so, and
+  docs/PORT-LOG.md lists every change and the sha256 of each upstream file. The modifications are
+  a `module` line, `import` turned into `public import`, an `@[expose] public section` line, and
+  the notice itself; no statement, proof or other line was changed. The 16 files are the import
+  closure, within OpenAI's development, of this project's proofs:
+
+    EuclideanRamsey: CircleExtension, CircleGeometry, CircleInterpolation, CircleSpan, Congruence,
+                     Model, NineGeometry, TensorDescent, TensorNecessity
+    SphericalRamsey: AlgebraicExtension, BasisDerivation, Model, Parameter, RealDerivation,
+                     RealTranscendenceBasis, Specification
+
+  The nine EuclideanRamsey files are byte-identical at openai/math fd4aeeb2 and 4eaee875, and the
+  ported files equal those of wstrinz/radian-ramsey (Will Strinz, Palomar entry
+  PALOMAR-2026-10-18-000020) except for the commit named in the notice (docs/PORT-LOG.md).
+
+* `Erdos174.IsRamsey`, with its docstring, in Challenge.lean, and `Erdos174.IsRamsey` and the
+  statement of `erdos_174.variants.graham` in HeptagonRamsey/Heptagon/Transport.lean (the regions
+  between BEGIN/END VERBATIM), reproduce google-deepmind/formal-conjectures
+  FormalConjectures/ErdosProblems/174.lean at 2055e5adadae0b2e392365938faa82ef6f1464f0
+  (Apache License, Version 2.0; Copyright 2026 The Formal Conjectures Authors), for comparison.
+
+* HeptagonRamsey/Generic/Seven.lean states OpenAI's `literalCircleConfig` and
+  `nine_circle_configuration` (openai/math lean/OAI/Combinatorics/EuclideanRamsey/NineStatement.lean,
+  Apache-2.0) for seven points, as recorded in that file; HeptagonRamsey/Generic/Derivation.lean
+  generalises OpenAI's BasisDerivation construction, as recorded in that file.
+
+* scripts/check-lean-sources.py and scripts/verify-comparator.sh are copied unmodified from
+  https://github.com/PalomarRegistry/PalomarTemplate, commit
+  2891de4c48955af824969a263d31b25e7a9a1406 (Apache License, Version 2.0).
+
+* scripts/port_to_modules.py and tests/controls/run-controls.sh are adapted from
+  https://github.com/wstrinz/radian-ramsey, commit f94bedbc05dd63d08adfba83ce853ede0094fb86
+  (MIT License, Copyright (c) 2026 Will Strinz), as recorded in each file.
+
+* Every other file in this repository that is not listed above as Apache-2.0 (or as an adaptation
+  of Apache-2.0 or third-party MIT material) is under the MIT License (LICENSE).

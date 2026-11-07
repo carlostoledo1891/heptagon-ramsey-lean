@@ -1,12 +1,16 @@
-import Mathlib.RingTheory.AlgebraicIndependent.TranscendenceBasis
-import Mathlib.RingTheory.AlgebraicIndependent.Adjoin
-import Mathlib.RingTheory.AlgebraicIndependent.Transcendental
-import Mathlib.Algebra.TrivSqZeroExt.Basic
-import Mathlib.RingTheory.Derivation.Basic
-import Mathlib.RingTheory.Localization.Basic
-import Mathlib.Basic.Real.Basic
-import Mathlib.Algebra.Algebra.Rat
-import OAI.Combinatorics.SphericalRamsey.AlgebraicExtension
+module
+
+public import Mathlib.RingTheory.AlgebraicIndependent.TranscendenceBasis
+public import Mathlib.RingTheory.AlgebraicIndependent.Adjoin
+public import Mathlib.RingTheory.AlgebraicIndependent.Transcendental
+public import Mathlib.Algebra.TrivSqZeroExt.Basic
+public import Mathlib.RingTheory.Derivation.Basic
+public import Mathlib.RingTheory.Localization.Basic
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Algebra.Algebra.Rat
+public import OAI.Combinatorics.SphericalRamsey.AlgebraicExtension
+
+@[expose] public section
 
 /-!
 # A derivation of `ℝ` vanishing on a subfield, with prescribed values on an independent family
