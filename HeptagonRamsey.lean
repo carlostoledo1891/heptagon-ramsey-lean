@@ -8,5 +8,6 @@ public import HeptagonRamsey.Heptagon.Transport
 public import HeptagonRamsey.Heptagon.Statement
 public import HeptagonRamsey.Generic.A3
 public import HeptagonRamsey.Generic.Seven
+public import HeptagonRamsey.Generic.Statement
 
 @[expose] public section

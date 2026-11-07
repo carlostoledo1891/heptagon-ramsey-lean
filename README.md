@@ -26,14 +26,14 @@ repository adds Lean proofs of the statements through OpenAI's theorem, kernel-c
   `.lean` file in Lean's module system. The 16 files of openai/math that the proofs import are included under
   `OAI/`, ported by header-only changes (Apache-2.0; [NOTICE](NOTICE), [docs/PORT-LOG.md](docs/PORT-LOG.md)). Our ten
   modules went through the same header pass; **no statement and no proof was changed**, none needed changing at the
-  new toolchain, and one module, `HeptagonRamsey/Heptagon/Statement.lean`, was added. Its record is
-  [CHECKS-PALOMAR.md](CHECKS-PALOMAR.md).
+  new toolchain, and two modules, `HeptagonRamsey/Heptagon/Statement.lean` and `HeptagonRamsey/Generic/Statement.lean`,
+  were added for the Mathlib-vocabulary statements below. Its record is [CHECKS-PALOMAR.md](CHECKS-PALOMAR.md).
 
 ## The advertised statements (`Challenge.lean`)
 
 `Challenge.lean` imports only Mathlib. It holds one definition, formal-conjectures' `Erdos174.IsRamsey` with its
 docstring, copied byte for byte from `FormalConjectures/ErdosProblems/174.lean` at `2055e5a` (unchanged at the head
-of PR #7706, `81b79068`; `checks/verbatim_palomar.py` compares both), and two theorem statements:
+of PR #7706, `81b79068`; `checks/verbatim_palomar.py` compares both), and four theorem statements:
 
 ```lean
 /-- A finite set `A ⊆ ℝⁿ` is Ramsey if for every number `k ≥ 1` of colours there is a
@@ -54,6 +54,20 @@ theorem HeptagonRamsey.Heptagon.heptagon_counterexample (r : ℝ) (hr : 2 < r) (
 theorem HeptagonRamsey.Heptagon.graham_false' :
     ¬ (∀ {n : ℕ} (A : Set (EuclideanSpace ℝ (Fin n))), A.Finite →
       EuclideanGeometry.Cospherical A → Erdos174.IsRamsey A)
+
+theorem HeptagonRamsey.Generic.generic_seven_not_isRamsey (t : Fin 7 → ℝ)
+    (h3 : Function.Injective ![t 0, t 1, t 2])
+    (h4 : AlgebraicIndependent ↥(IntermediateField.adjoin ℚ ({t 0, t 1, t 2} : Set ℝ))
+      ![t 3, t 4, t 5, t 6]) :
+    ¬ Erdos174.IsRamsey (Set.range fun i : Fin 7 =>
+      !₂[(1 - t i ^ 2) / (1 + t i ^ 2), 2 * t i / (1 + t i ^ 2)])
+
+theorem HeptagonRamsey.Generic.seven_circle_configuration_isRamsey (t : Fin 7 → ℝ)
+    (ht : AlgebraicIndependent ℚ t) :
+    let a : Fin 7 → EuclideanSpace ℝ (Fin 2) := fun i =>
+      !₂[(1 - t i ^ 2) / (1 + t i ^ 2), 2 * t i / (1 + t i ^ 2)]
+    Function.Injective a ∧ (∀ i, a i ∈ Metric.sphere (0 : EuclideanSpace ℝ (Fin 2)) 1) ∧
+      ¬ Erdos174.IsRamsey (Set.range a)
 ```
 
 - **`heptagon_counterexample`** is Theorem 1 of arXiv:2609.23327 as printed: for every transcendental `r > 2`, the
@@ -63,15 +77,23 @@ theorem HeptagonRamsey.Heptagon.graham_false' :
 - **`graham_false'`** says that not every finite cospherical subset of a Euclidean space is Ramsey. It is the
   statement of `erdos_174.variants.graham` in formal-conjectures PR #7706, token for token, with `IsRamsey` written
   `Erdos174.IsRamsey` because it is stated outside that namespace (`checks/verbatim_palomar.py`).
+- **`generic_seven_not_isRamsey`** is Theorem A.3 of the paper's appendix as printed, without its measure clause:
+  for distinct `t₁, t₂, t₃` and `t₄, …, t₇` algebraically independent over `K = ℚ(t₁, t₂, t₃)`, the set
+  `{p(t₁), …, p(t₇)}`, `p(t) = ((1 − t²)/(1 + t²), 2t/(1 + t²))`, is not Ramsey. Lean indices are the paper's minus
+  one; `K` is Mathlib's `IntermediateField.adjoin ℚ {t₁, t₂, t₃}` inside `ℝ`. The paper labels its appendix
+  "by ChatGPT — unchecked"; this is a Lean check of A.3.
+- **`seven_circle_configuration_isRamsey`** is A.3's corollary for `t₁, …, t₇` algebraically independent over `ℚ`, in
+  the shape of OpenAI's nine-point statement (`nine_circle_configuration`, nine replaced by seven): the seven points
+  are distinct, lie on the unit circle, and are not Ramsey.
 - **`IsRamsey`** is formal-conjectures' definition: `A` finite, and for every number of colours `k ≥ 1` some
   dimension `d` such that every `k`-colouring of `ℝᵈ` has a monochromatic distance-preserving copy of `A`
   (Mathlib's `Congruent`). It allows `d = 0`; the proof handles that case (two distinct points have no
   distance-preserving copy in `ℝ⁰`). `EuclideanGeometry.Cospherical` is Mathlib's (some centre and radius at which
   every point of the set lies).
 
-`Solution.lean` imports the proofs; `comparator.json` names the two theorems, no definition holes, and the three
+`Solution.lean` imports the proofs; `comparator.json` names the four theorems, no definition holes, and the three
 standard axioms. Comparator checks that `Erdos174.IsRamsey` and every other constant the statements mention are
-identical in the two environments, and that the two proofs use only `propext`, `Classical.choice` and `Quot.sound`.
+identical in the two environments, and that the four proofs use only `propext`, `Classical.choice` and `Quot.sound`.
 
 ## How the proof goes
 
@@ -93,24 +115,31 @@ In `HeptagonRamsey/Heptagon/`, in OpenAI's vocabulary (`Ramsey`, `FieldCriterion
 5. `Statement.lean` (new on this branch): the range of `heptagon r` is the set of seven points written out
    (`range_heptagon`), which gives `heptagon_counterexample`.
 
-The other theorems of v1.0.0 are all still here and still proved, in OpenAI's vocabulary, and are not among the
-compared declarations: `not_fieldCriterion`, `not_ramsey`, `graham_false`, and, in `HeptagonRamsey/Generic/`,
-Theorem A.3 (`generic_seven_not_ramsey`: three distinct parameters, four algebraically independent over the field
-they generate, give seven non-Ramsey points `NineGeometry.circlePoint (t i)`) and its corollary in the shape of
-OpenAI's nine-point statement (`seven_circle_configuration`); [CHECKS.md](CHECKS.md) describes them, and
-`checks/verbatim_seven.py` still compares the latter with OpenAI's text. One remark on the paper, from v1.0.0: for
-A.3's configuration the matrix `Σ λᵢ D(pᵢ) pᵢᵀ` is symmetric but not zero (`moment_M`), so the proof needs Lemma
-A.1's symmetric condition; the main text's Equation (2), which asks for that matrix to vanish, is stronger and does
-not hold there.
+In `HeptagonRamsey/Generic/`, Theorem A.3, as in the appendix: Lemma A.1 in its symmetric form, proved generically
+in `s` and `d` (`LemmaA1.lean`); a derivation vanishing on `K = ℚ(t₁, t₂, t₃)` with prescribed values on
+`t₄, …, t₇` (`Derivation.lean`, generalising OpenAI's `BasisDerivation` from base `ℚ` to an arbitrary base field);
+the weighted moments by Lagrange interpolation (`Moments.lean`); then `not_fieldCriterion` and, through the
+necessity half again, `generic_seven_not_ramsey` for `circ t i = NineGeometry.circlePoint (t i)` (`A3.lean`), and
+`seven_circle_configuration` with Mathlib's `AlgebraicIndependent.adjoin_of_disjoint` (`Seven.lean`).
+`Statement.lean` (new on this branch) transports both to formal-conjectures' `IsRamsey`, for any finite family
+(`ramsey_of_isRamsey_range`: a copy in `ℝ⁰` forces the family to be constant, and a constant family is Ramsey).
+One remark on the paper, from v1.0.0: for A.3's configuration the matrix `Σ λᵢ D(pᵢ) pᵢᵀ` is symmetric but not zero
+(`moment_M`), so the proof needs Lemma A.1's symmetric condition; the main text's Equation (2), which asks for that
+matrix to vanish, is stronger and does not hold there.
 
-All seven theorems depend on exactly `propext`, `Classical.choice` and `Quot.sound`: no `sorry`, no
+The OpenAI-vocabulary theorems of v1.0.0 are all still here and still proved, and are not among the compared
+declarations: `not_fieldCriterion`, `not_ramsey`, `graham_false`, `generic_seven_not_ramsey`,
+`seven_circle_configuration` ([CHECKS.md](CHECKS.md) describes them; `checks/verbatim_seven.py` still compares the
+last with OpenAI's text).
+
+All nine theorems depend on exactly `propext`, `Classical.choice` and `Quot.sound`: no `sorry`, no
 `native_decide`, no new axiom ([CHECKS-PALOMAR.md](CHECKS-PALOMAR.md)).
 
 ## What is not claimed
 
 - **The remark "one may take r = π"** of Theorem 1. The witness for `graham_false'` is `r₀ = 2 + parameter`.
 - **The "almost every" clause of A.3** ("consequently almost every seven-point subset of a fixed circle is not
-  Ramsey"). It needs a measure-zero argument that is not formalized here; `generic_seven_not_ramsey` assumes the
+  Ramsey"). It needs a measure-zero argument that is not formalized here; `generic_seven_not_isRamsey` assumes the
   independence, as OpenAI's nine-point theorem does.
 - **The six-point case.** That every six concyclic points are Ramsey, so that seven is the least size of a non-Ramsey
   cyclic set, is not proved here. It was closed in Lean by JD Jones (JD-Jones-ASES/six-concyclic-lean, at the level of
@@ -151,15 +180,16 @@ All seven theorems depend on exactly `propext`, `Classical.choice` and `Quot.sou
 
 ```
 Challenge.lean                     the advertised statements (Mathlib only); `sorry` by design
-Solution.lean                      imports the proofs; `#print axioms` of the two theorems
-comparator.json                    the two theorems, no definition holes, the three standard axioms
+Solution.lean                      imports the proofs; `#print axioms` of the four theorems
+comparator.json                    the four theorems, no definition holes, the three standard axioms
 formalization.yaml                 Palomar's metadata (formalization.yaml v0.4)
 HeptagonRamsey.lean                imports every module below
 HeptagonRamsey/Heptagon/           Pairing, Points, Criterion (not_fieldCriterion), NotRamsey (not_ramsey),
                                    Transport (IsRamsey; graham_false, graham_false'), Statement (heptagon_counterexample)
-HeptagonRamsey/Generic/            Derivation, Moments, LemmaA1, A3 (generic_seven_not_ramsey), Seven
+HeptagonRamsey/Generic/            Derivation, Moments, LemmaA1, A3 (generic_seven_not_ramsey), Seven,
+                                   Statement (generic_seven_not_isRamsey, seven_circle_configuration_isRamsey)
 OAI/Combinatorics/                 the 16 openai/math files the proofs import, ported (Apache-2.0)
-tests/controls/                    five negative controls for lake comparator and their runner
+tests/controls/                    six negative controls for lake comparator and their runner
 checks/verbatim_palomar.py         Challenge.lean's IsRamsey and graham_false' against formal-conjectures
 checks/verbatim_check.py           Transport.lean's copied text against formal-conjectures at 2055e5a (from v1.0.0)
 checks/verbatim_seven.py           Seven.lean's statement against OpenAI's (from v1.0.0)
@@ -177,9 +207,9 @@ On x86_64 Linux with git, curl, python3 and `bwrap` (bubblewrap, for `lake compa
 ```sh
 python3 scripts/check-lean-sources.py     # every .lean file a module, at most 10,000 lines
 lake exe cache get                        # Mathlib's build cache
-lake build                                # everything; prints the axioms of the two theorems
+lake build                                # everything; prints the axioms of the four theorems
 ./scripts/verify-comparator.sh            # lake comparator with Lean's kernel, NanoDa and con-ron
-bash tests/controls/run-controls.sh       # each of the five controls must be refused
+bash tests/controls/run-controls.sh       # each of the six controls must be refused
 ```
 
 Where `bwrap` cannot start (inside an unprivileged container, for instance), `bash tests/controls/run-controls.sh

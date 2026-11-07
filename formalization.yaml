@@ -2,7 +2,7 @@
 version: "v0.4"
 
 project:
-  name: "Pálvölgyi's cyclic heptagon is not Euclidean Ramsey, so Graham's spherical-set conjecture (formal-conjectures erdos_174.variants.graham) is false"
+  name: "Pálvölgyi's cyclic heptagon is not Euclidean Ramsey, so Graham's spherical-set conjecture (formal-conjectures erdos_174.variants.graham) is false; and generic seven points on a circle are not Ramsey (Theorem A.3 of arXiv:2609.23327)"
   description: >-
     For every transcendental r > 2, the seven points (0, 0) and (j, ±√(j(2r − j))),
     j ∈ {1, 3, 4}, lie on the circle of centre (r, 0) and radius r and are not
@@ -30,12 +30,19 @@ project:
     Lean) turns that into not Ramsey; formal-conjectures' IsRamsey, which also
     allows the dimension d = 0, is then reduced to OpenAI's Ramsey. The witness for
     the second statement is the heptagon at r = 2 + OpenAI's Liouville-type
-    parameter, which is transcendental. The 16 OpenAI Lean files the proof imports
-    are included, ported to the Lean module system by header-only changes. The
-    repository also proves Theorem A.3 of the paper's appendix (generic seven
-    points on a circle are not Ramsey) in OpenAI's vocabulary; that theorem is not
-    among the compared declarations of this entry. All proofs depend on propext,
-    Classical.choice and Quot.sound only.
+    parameter, which is transcendental. Also proved, with the same definition:
+    Theorem A.3 of the paper's appendix as printed, without its measure clause
+    (for distinct t1, t2, t3 and t4, ..., t7 algebraically independent over
+    Q(t1, t2, t3), the seven points ((1 − ti²)/(1 + ti²), 2ti/(1 + ti²)) are not
+    Ramsey; the appendix is labelled by its author as written by ChatGPT and
+    unchecked), and its corollary for seven parameters algebraically independent
+    over Q, in the shape of OpenAI's nine-point theorem (distinct points on the
+    unit circle, not Ramsey). Its proof follows the appendix: Lemma A.1 in its
+    symmetric form, a derivation vanishing on Q(t1, t2, t3) with prescribed values
+    on t4, ..., t7, weighted moments by Lagrange interpolation, and again the
+    necessity half of OpenAI's classification. The 16 OpenAI Lean files the proofs
+    import are included, ported to the Lean module system by header-only changes.
+    All proofs depend on propext, Classical.choice and Quot.sound only.
   authors:
     - "Carlos Toledo"
   license: "MIT"
@@ -60,11 +67,12 @@ sources:
       graham_false' is the disproof it announces. The Lean proof follows the paper's
       argument (the weights and the derivation with D r = 1) but concludes through
       OpenAI's criterion and its necessity theorem rather than through the paper's
-      own real-variable lemma. The paper states that its text and proofs were written
-      by ChatGPT and that the author contributed only suggestions on the
-      presentation. The repository also formalizes Theorem A.3 of the paper's
-      appendix (labelled there "Appendix by ChatGPT — unchecked"), which is not a
-      compared declaration of this entry; its "almost every" clause is not formalized.
+      own real-variable lemma. generic_seven_not_isRamsey is Theorem A.3 of the
+      appendix (labelled there "Appendix by ChatGPT — unchecked") as printed, without
+      its "almost every" clause, which is not formalized; its proof follows the
+      appendix (Lemma A.1, symmetric form). The paper states that its text and
+      proofs were written by ChatGPT and that the author contributed only
+      suggestions on the presentation.
     license: "unknown"
     author_endorsement: "not-contacted"
   - title: "A classification of finite Euclidean Ramsey configurations (OpenAI math release, result 172)"
@@ -81,7 +89,10 @@ sources:
       existence of real derivations with a prescribed value at a transcendental
       (GrahamSpherical.exists_real_derivation), the five-point circle span lemma
       (circle_five_affineSpan) and their transcendental parameter
-      (GrahamSpherical.parameter). The 16 files of their development that this proof
+      (GrahamSpherical.parameter); Derivation.lean generalises their BasisDerivation
+      construction from base ℚ to an arbitrary base field, and
+      seven_circle_configuration_isRamsey follows the shape of their nine-point theorem
+      nine_circle_configuration (NineStatement.lean). The 16 files of their development that this proof
       imports are included with header-only changes for the Lean module system
       (Apache-2.0; NOTICE, docs/PORT-LOG.md). OpenAI's Lean also proves, in its own
       vocabulary, that an explicit twelve-point set on the unit circle is not Ramsey
@@ -181,9 +192,12 @@ status:
     Formalized: Pálvölgyi's Theorem 1 for every transcendental r > 2, with the seven
     points written out in EuclideanSpace ℝ (Fin 2) (heptagon_counterexample), and the
     negation of formal-conjectures' erdos_174.variants.graham (graham_false'), both with
-    formal-conjectures' IsRamsey; in the repository but not compared here, the same in
-    OpenAI's vocabulary (not_fieldCriterion, not_ramsey) and Theorem A.3 of the appendix
-    (generic_seven_not_ramsey, seven_circle_configuration). Not formalized: the remark
+    formal-conjectures' IsRamsey; Theorem A.3 of the appendix without its measure clause
+    (generic_seven_not_isRamsey) and its corollary for seven parameters algebraically
+    independent over ℚ (seven_circle_configuration_isRamsey), with the same definition;
+    in the repository but not compared here, all of these in OpenAI's vocabulary
+    (not_fieldCriterion, not_ramsey, generic_seven_not_ramsey,
+    seven_circle_configuration). Not formalized: the remark
     that r = π may be taken (the witness here is r = 2 + OpenAI's Liouville-type
     parameter); the "almost every" clause of Theorem A.3; the six-point case and the
     minimality of seven; every other appendix result; the classification itself, which
@@ -199,6 +213,16 @@ status:
       comparator_config: "comparator.json"
     - declaration: "HeptagonRamsey.Heptagon.graham_false'"
       file: "HeptagonRamsey/Heptagon/Transport.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "HeptagonRamsey.Generic.generic_seven_not_isRamsey"
+      file: "HeptagonRamsey/Generic/Statement.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "HeptagonRamsey.Generic.seven_circle_configuration_isRamsey"
+      file: "HeptagonRamsey/Generic/Statement.lean"
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "comparator.json"
@@ -237,7 +261,12 @@ fidelity:
     point lies). The seven points are written as in Theorem 1 with j(2r − j) evaluated
     (2r − 1, 3(2r − 3), 4(2r − 4)); Mathlib's √ is Real.sqrt, and every radicand is
     positive for r > 2. "On the circle (x − r)² + y² = r²" is membership in
-    Metric.sphere (r, 0) r. No other divergence is known.
+    Metric.sphere (r, 0) r. In Theorem A.3, p(t) is written out as
+    ((1 − t²)/(1 + t²), 2t/(1 + t²)); "t1, t2, t3 distinct" is injectivity of
+    ![t 0, t 1, t 2]; K = Q(t1, t2, t3) is IntermediateField.adjoin ℚ {t 0, t 1, t 2}
+    in ℝ; Lean indices are the paper's minus one; the "almost every" clause is
+    omitted. In the corollary, "on the unit circle" is membership in Metric.sphere 0 1.
+    No other divergence is known.
 
 review:
   status: "self-assessed"
@@ -245,7 +274,7 @@ review:
     - "none"
   notes: >-
     Machine checks only (CHECKS-PALOMAR.md; for version 1.0.0, CHECKS.md): the build;
-    the toolchain's lake comparator judging exports of Challenge and Solution, with five
+    the toolchain's lake comparator judging exports of Challenge and Solution, with six
     negative controls refused for their stated reasons; Lean's kernel, the paranoid
     checker, NanoDa, con-ron, con-leche and lean4lean on the exported proof; a
     two-computation axiom audit; scripts comparing the copied statements with
@@ -264,6 +293,16 @@ alignment:
       module: "Challenge (statement); HeptagonRamsey.Heptagon.Transport (proof)"
       status: "proved"
       note: "Token for token PR #7706's statement, with IsRamsey qualified as Erdos174.IsRamsey."
+    - source: "arXiv:2609.23327, appendix, Theorem A.3 (the first sentence; the 'almost every' clause is not formalized)"
+      lean: "HeptagonRamsey.Generic.generic_seven_not_isRamsey"
+      module: "Challenge (statement); HeptagonRamsey.Generic.Statement (proof)"
+      status: "proved"
+      note: "Hypotheses as printed: t1, t2, t3 distinct; t4, ..., t7 algebraically independent over Q(t1, t2, t3)."
+    - source: "Theorem A.3 for seven parameters algebraically independent over Q, in the shape of OpenAI's nine_circle_configuration"
+      lean: "HeptagonRamsey.Generic.seven_circle_configuration_isRamsey"
+      module: "Challenge (statement); HeptagonRamsey.Generic.Statement (proof)"
+      status: "proved"
+      note: "The hypotheses of A.3 follow from algebraic independence over Q (Mathlib's AlgebraicIndependent.adjoin_of_disjoint)."
 
 acknowledgements: >-
   Dömötör Pálvölgyi (and ChatGPT, as his paper states) for the heptagon and its

@@ -65,20 +65,28 @@ tree with `OAI/` by `diff -r` (no difference, 2026-11-07).
 1. **Header pass.** `python3 scripts/port_to_modules.py HeptagonRamsey/*/*.lean HeptagonRamsey.lean`:
    `module`, `public import`, `@[expose] public section`. No notice (these are this
    repository's files). Replay: the same command on the files of tag `v1.0.0`, compared by
-   `diff -r` with `HeptagonRamsey/`: no difference except the new `Statement.lean` (2026-11-07).
+   `diff -r` with `HeptagonRamsey/`: no difference except the two new `Statement.lean` files (2026-11-07).
 2. **Proof changes needed at the new pin: none.** All ten modules of `v1.0.0` built at Lean
    v4.35.0-rc2 / Mathlib `06535612` on the first attempt, with no edit to any statement, proof,
    `open`, `variable` or option, and with no warning from their files (CHECKS-PALOMAR.md). The
    Mathlib drift between `d13f23b7` (a v4.34.1 branch commit) and `06535612` (69 commits ahead of
    their merge base, 1 behind) touches no name these files use.
-3. **The root file.** `HeptagonRamsey.lean` gains `import HeptagonRamsey.Heptagon.Statement`
-   before the header pass, and is now a Lake module (at `v1.0.0` it was elaborated with
-   `lake env lean` but not built).
-4. **One new module**, `HeptagonRamsey/Heptagon/Statement.lean` (59 lines), written for the
-   Palomar packaging: `heptagon_counterexample`, Pálvölgyi's Theorem 1 with the seven points
-   written out in `EuclideanSpace ℝ (Fin 2)` (no definition of this repository's or of OpenAI's
-   in the statement), proved from `range_heptagon` and the existing `not_isRamsey` and
-   `heptagon_dist_centre`.
+3. **The root file.** `HeptagonRamsey.lean` gains `import HeptagonRamsey.Heptagon.Statement` and
+   `import HeptagonRamsey.Generic.Statement` before the header pass, and is now a Lake module (at
+   `v1.0.0` it was elaborated with `lake env lean` but not built).
+4. **Two new modules**, written for the Palomar packaging, so that the advertised statements use
+   no definition of this repository's or of OpenAI's (only Mathlib and formal-conjectures'
+   `IsRamsey`):
+   - `HeptagonRamsey/Heptagon/Statement.lean` (59 lines): `heptagon_counterexample`, Pálvölgyi's
+     Theorem 1 with the seven points written out in `EuclideanSpace ℝ (Fin 2)`, proved from
+     `range_heptagon` and the existing `not_isRamsey` and `heptagon_dist_centre`;
+   - `HeptagonRamsey/Generic/Statement.lean` (83 lines): `ramsey_of_isRamsey_range` (for any
+     finite family, formal-conjectures' `IsRamsey` of the range gives OpenAI's `Ramsey`; the
+     dimension-0 case forces a constant family), and `generic_seven_not_isRamsey` and
+     `seven_circle_configuration_isRamsey`, Theorem A.3 and its corollary with the points
+     `p(tᵢ)` written out, proved from the existing `generic_seven_not_ramsey`,
+     `seven_circle_configuration` and `literal_eq`.
+   Both built on the first attempt.
 
 | file | v1.0.0 sha256 (CHECKS.md) | ported sha256 | lines |
 |---|---|---|---|
@@ -87,13 +95,14 @@ tree with `OAI/` by `diff -r` (no difference, 2026-11-07).
 | `HeptagonRamsey/Generic/LemmaA1.lean` | `5209c3fbf68d8d7802216c51ccf901a1740c7a71281c8dff7d783a4937b51113` | `e07a84a197df4786a2983554f018c68391a4ccdce41898313318c5fa9039c813` | 132 → 136 |
 | `HeptagonRamsey/Generic/Moments.lean` | `8ed3b73f07d656ae243bd99fcf93ae2819b94607aed0bc339f9cab178265eb2f` | `f6308cb67c3eef372e1dc54c778f4d6311249c4caef7cd408d3404a82ad2ed33` | 278 → 282 |
 | `HeptagonRamsey/Generic/Seven.lean` | `eed79f156121742078c1326acdd769e5ff48e6b745424871ec453ff7c59cc28f` | `d50ae71e4eb66c7e2e79aa3a13c95b2f9ccb81a77a004c443c298aafb478ce96` | 91 → 95 |
+| `HeptagonRamsey/Generic/Statement.lean` | — (new) | `8a57030288941f28d221c8e3aa04e51127ffbc03609c9ec06c6a076311b99ffe` | 83 |
 | `HeptagonRamsey/Heptagon/Criterion.lean` | `c4a25c6d24e408b5b8a8a2918a83f367a5e65ec920f76f30f00f28df29c17a56` | `adb2259e6699e1de219325f42e109287969850ef853653ac4ce7988fee066609` | 174 → 178 |
 | `HeptagonRamsey/Heptagon/NotRamsey.lean` | `6d466d3797f60488e7e2b70f9ec73491b617c0bf4f0d464b8c050ffb3c03b3ae` | `7d89ef17eec1c2fa54de3d6aa36453072bfc4d31e4ee4383a1dd54f2210d7e13` | 75 → 79 |
 | `HeptagonRamsey/Heptagon/Pairing.lean` | `3bb5632ebbf394b86c068f3f3faa98cc79b7ab252cbc65c62cf8640495a81f54` | `9f8892d7bac9de6575269c1ab8946e620679c628131f563cbd06e41c99a85e99` | 139 → 143 |
 | `HeptagonRamsey/Heptagon/Points.lean` | `8c7a6f3e00affbc306d3d68893e8d9754eb82ea06960bba351e49331b479672a` | `a6787ee9e96d6cc880581c0942b7bad3fe9accef7ac40d459db052ea07a7a2dd` | 110 → 114 |
 | `HeptagonRamsey/Heptagon/Statement.lean` | — (new) | `75b57c49c02ae40eb1fd49feb0d9a398385ec1329ce383697059d84bb4b91614` | 59 |
 | `HeptagonRamsey/Heptagon/Transport.lean` | `76905716ae8769504084f4adb8e9e581924ae721eb756aa2d10b2825e7882b3c` | `737711ced7b6b7511f99e6ae57975a0f9f062aa70048a0057b45f86ac85ce339` | 105 → 109 |
-| `HeptagonRamsey.lean` | `562f30b9bac2de93429ba15971fd64487b749ac547988956436a2f7528343ae0` | `ece3080bb172b6d55f4897634c6b0cb4b9358d0a92e80533db18de4f3aae6965` | 7 → 12 |
+| `HeptagonRamsey.lean` | `562f30b9bac2de93429ba15971fd64487b749ac547988956436a2f7528343ae0` | `8bf92eeb1eb36ec817357b6260f423b6f8662f3691d6f177290ae000e95fabde` | 7 → 13 |
 
 The docstrings keep a few labels from the pre-registered plan under which the files were written
 (`H1`, `H2`, `Amendment D`); `d/verbatim_seven.py` in Seven.lean's header is
@@ -103,11 +112,11 @@ The docstrings keep a few labels from the pre-registered plan under which the fi
 
 | File | What |
 |---|---|
-| `Challenge.lean` | Mathlib-only statement surface: formal-conjectures' `Erdos174.IsRamsey` with its docstring, verbatim; `heptagon_counterexample`; `graham_false'` (the statement of formal-conjectures PR #7706, with `IsRamsey` qualified), with `sorry` |
-| `Solution.lean` | `public import HeptagonRamsey.Heptagon.Statement` (which imports `Transport`), and `#print axioms` for the two theorems |
-| `comparator.json` | the two theorems, no definition holes, the three standard axioms |
+| `Challenge.lean` | Mathlib-only statement surface: formal-conjectures' `Erdos174.IsRamsey` with its docstring, verbatim; `heptagon_counterexample`; `graham_false'` (the statement of formal-conjectures PR #7706, with `IsRamsey` qualified); `generic_seven_not_isRamsey`; `seven_circle_configuration_isRamsey`; each with `sorry` |
+| `Solution.lean` | `public import` of the two `Statement` modules, and `#print axioms` for the four theorems |
+| `comparator.json` | the four theorems, no definition holes, the three standard axioms |
 | `formalization.yaml` | Palomar's metadata (formalization.yaml v0.4) |
-| `tests/controls/` | five negative controls (three Challenge edits, a `sorry` solution, a solution from a planted axiom) and their runner, adapted from radian-ramsey's |
+| `tests/controls/` | six negative controls (four Challenge edits, a `sorry` solution, a solution from a planted axiom) and their runner, adapted from radian-ramsey's |
 | `checks/verbatim_palomar.py` | Challenge.lean's `IsRamsey` against formal-conjectures at `2055e5a` and at the head of PR #7706, and `graham_false'` against PR #7706's statement, with planted mutants |
 | `scripts/port_to_modules.py` | the header pass above (radian-ramsey's, with this repository's notice) |
 | `scripts/check-lean-sources.py`, `scripts/verify-comparator.sh` | PalomarTemplate `2891de4c`, unmodified |

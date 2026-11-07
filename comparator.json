@@ -3,8 +3,14 @@
   "solution_module": "Solution",
   "theorem_names": [
     "HeptagonRamsey.Heptagon.heptagon_counterexample",
-    "HeptagonRamsey.Heptagon.graham_false'"
+    "HeptagonRamsey.Heptagon.graham_false'",
+    "HeptagonRamsey.Generic.generic_seven_not_isRamsey",
+    "HeptagonRamsey.Generic.seven_circle_configuration_isRamsey"
   ],
   "definition_names": [],
-  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
 }

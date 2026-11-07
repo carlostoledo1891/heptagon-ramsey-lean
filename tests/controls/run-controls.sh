@@ -43,6 +43,7 @@ TOML
 # primitive targets, the theorem names and the permitted axioms.
 targets=(Quot Quot.mk Quot.lift Quot.ind
   HeptagonRamsey.Heptagon.heptagon_counterexample "HeptagonRamsey.Heptagon.graham_false'"
+  HeptagonRamsey.Generic.generic_seven_not_isRamsey HeptagonRamsey.Generic.seven_circle_configuration_isRamsey
   propext Quot.sound Classical.choice
   Nat.add Nat.sub Nat.mul Nat.pow Nat.gcd Nat.div Nat.mod Nat.beq Nat.ble Nat.land Nat.lor Nat.xor
   Nat.shiftLeft Nat.shiftRight String.ofList Char.ofNat List eagerReduce Nat String String.mk Char
@@ -62,6 +63,7 @@ controls=(
   "drop-finite|Challenge and solution theorem statement do not match: 'HeptagonRamsey.Heptagon.graham_false''"
   "redef-isramsey|Const does not match between challenge and target 'Erdos174.IsRamsey'"
   "move-point|Challenge and solution theorem statement do not match: 'HeptagonRamsey.Heptagon.heptagon_counterexample'"
+  "drop-distinct|Challenge and solution theorem statement do not match: 'HeptagonRamsey.Generic.generic_seven_not_isRamsey'"
   "sorry-solution|Illegal axiom detected: 'sorryAx'"
   "axiom-solution|Illegal axiom detected: 'HeptagonRamsey.Heptagon.planted_axiom'"
 )
